@@ -1,9 +1,8 @@
 #!/usr/bin/env python
-import sys, shlex, subprocess, os
+import pathlib, sys, shlex, subprocess, os
 
 def usage():
-    #default directory is: ~/BashScripts/out/inputfilename)
-    #create this directory for the default option, program will fail if this directory is nonexistant
+    #default directory is: ~/Scripts/out/inputfilename)
     print("Command format: splitter.py *file*(required) *output_directory*('d' for default) *number_of_megabytes*('d'for default) *number_of_files*('d' for default)")
 
 def get_path(fpath):
@@ -28,7 +27,8 @@ def split_this_file(f, o, n, l ):
     #default maximum number of bytes per split file and default output directory
     num_byts = 104857600
     #out_dir = "~/BashScripts/out"
-    out_dir = os.path.abspath("/home/sevvy/Scripts/out")
+    home = str(pathlib.Path.home())
+    out_dir = os.path.abspath("%s/Scripts/out" % home)
     print("outdir: " + out_dir)
     num_fls = None
     #split path string to obtain file name
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     num_byts = None
     num_fls = None
     #if less than 1 or more than 2 params are given, call usage, exit program
-    if len(sys.argv) not in range(2,6):
+    if len(sys.argv) not in range(2, 6):
         usage()
         sys.exit(1)
     #if output dir param is given, assign variable
@@ -103,38 +103,3 @@ if __name__ == '__main__':
     fn = sys.argv[1]
     #call file splitter function
     split_this_file(fn, out_dir, num_byts, num_fls)
-
-
-
-# def split_this_file(f, o, n):
-#     # filename is the first parameter
-#     fn = f
-#     out_dir = "~/BashScripts/out"
-#     # split path string to obtain file name
-#     split_fn = (fn.split("/")[-1]).split(".")[0]
-#
-#     # if a second parameter is given, this is the output directory
-#     if o:
-#         out_dir = o.rstrip("/")
-#     if n:
-#         num_byts = n
-#
-#     # maximum number of lines so apps like gedit are able to read it into memory
-#     NUM_OF_LINES = 250000
-#     with myopen(fn) as fin:
-#         # output filename is output_dir/filename/split_file.txt
-#         fout_name = "%s/%s/%s0.txt" % (out_dir, split_fn, split_fn)
-#         # check if dir exist
-#         checkdir(fout_name)
-#         fout = open(fout_name, "wb")
-#         for i, line in enumerate(fin):
-#             fout.write(line)
-#             # if NUM_OF_LINES is reached, close file, open new file
-#             if (i + 1) % NUM_OF_LINES == 0:
-#                 fout.close()
-#                 fout_name = "%s/%s/%s%d.txt" % (out_dir, split_fn, split_fn, (i / NUM_OF_LINES + 1))
-#                 checkdir(fout_name)
-#                 fout = open(fout_name, "wb")
-#
-#         fout.close()
-#     print("split succesful! Files in: %s/%s" % (out_dir, split_fn))
