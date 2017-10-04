@@ -1,4 +1,4 @@
-![Logo of splitter](https://github.com/LucilleWerner/Splitter/blob/master/Images/splitter.png)
+![Logo of splitter](https://github.com/LucilleWerner/Splitter/blob/master/Images/splitter_logo.png)
 lil' cute command line tool to split large (gzipped) files with python.
 Compatible with python2 & 3
 
